@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#ffba08" /> <!-- Hintergrundfarbe -->
+    <solid android:color="#DFA06E" /> <!-- Hintergrundfarbe -->
     <stroke
         android:width="2dp"
-        android:color="#ffba08" /> <!-- Randfarbe -->
+        android:color="#DFA06E" /> <!-- Randfarbe -->
     <corners android:radius="8dp" /> <!-- Ecken abrunden -->
     <padding
         android:left="10dp"

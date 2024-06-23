@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void joinGame(View view) {
         System.out.println("Die createGame() Methode wurde aufgerufen!");
-        setContentView(R.layout.join_game_activity);
+        setContentView(R.layout.choose_team_activity);
     }
 
     public void gameRules(View view) {

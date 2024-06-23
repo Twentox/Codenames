@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class GameBoard {
-    protected List<Word> words = new ArrayList<Word>();
+    public List<Word> words = new ArrayList<Word>();
     protected Word[][] grid = new Word[3][5];
     protected ArrayList<Word> choosenWords = new ArrayList<Word>();
 

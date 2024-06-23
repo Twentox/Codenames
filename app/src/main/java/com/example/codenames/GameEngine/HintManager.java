@@ -6,10 +6,6 @@ public class HintManager {
     private String hint;
     private int meaningWords;
 
-    public HintManager(String hint, int meaningWords){
-        setHint(hint);
-        setMeaningWords(meaningWords);
-    }
 
     public void setHint(String hint) {
         this.hint = hint;

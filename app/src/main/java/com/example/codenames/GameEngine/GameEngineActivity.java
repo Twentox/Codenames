@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.graphics.drawable.GradientDrawable;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,12 +23,13 @@ import com.example.codenames.R;
 import java.util.ArrayList;
 
 public class GameEngineActivity extends AppCompatActivity {
+
     GameBoard gameBoard = new GameBoard();
     private int wordClickedCounter = 0;
     TextView collectedWordsCounter;
 
     ArrayList<Button> buttonArrayList = new ArrayList<>();
-    String w = "Ball\nApfel\nBirne\nParika\nBaum\nHaus\nFlasche\nFanta\nHandy\nMaus\nTastaturr\nUni\nBett\nTisch\nBoden";
+    String w = "Ball\nApfel\nBirne\nParika\nBaum\nHaus\nFlasche\nFanta\nHandy\nMaus\nTastaturr\nUni\nBett\nTisch\nBoden\nLampe\nHolz\nFenster";
     ArrayList<String> hintWordList = new ArrayList<String>();
 
     @Override
@@ -54,26 +56,26 @@ public class GameEngineActivity extends AppCompatActivity {
     public void fillGameBoardGridDetective(){
         GridLayout gameBoardGrid = findViewById(R.id.game_gridlayout);
         int totalColumns = 3;
-        int totalRows = 5;
+        int totalRows = 6;
         // Sicherstellen, dass das GridLayout die richtige Anzahl von Zeilen und Spalten hat
         gameBoardGrid.setColumnCount(totalColumns);
         gameBoardGrid.setRowCount(totalRows);
 
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 18; i++) {
             Button button = new Button(this);
             buttonArrayList.add(button);
             button.setTag("unchecked");
             button.setText(gameBoard.words.get(i).getWord());
             button.setTextColor(Color.WHITE);
             if(gameBoard.words.get(i).getColor().getValues() == 1){
-                button.setBackgroundColor(Color.parseColor("#4361ee"));
+                button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_backgroundcolor_blue));
             } else if (gameBoard.words.get(i).getColor().getValues() == 2) {
-                button.setBackgroundColor(Color.parseColor("#d62828"));
+                button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_backgroundcolor_red));
             } else if (gameBoard.words.get(i).getColor().getValues() == 3) {
-                button.setBackgroundColor(Color.parseColor("#ffba08"));
+                button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_backgroundcolor_yellow));
             }else {
-                button.setBackgroundColor(Color.parseColor("#000000"));
+                button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_backgroundcolor_black));
             }
 
             collectClickedWordsDetective(button);
@@ -93,12 +95,12 @@ public class GameEngineActivity extends AppCompatActivity {
     public void fillGameBoardInvestigator(){
         GridLayout gameBoardGrid = findViewById(R.id.game_gridlayout);
         int totalColumns = 3;
-        int totalRows = 5;
+        int totalRows = 6;
         // Sicherstellen, dass das GridLayout die richtige Anzahl von Zeilen und Spalten hat
         gameBoardGrid.setColumnCount(totalColumns);
         gameBoardGrid.setRowCount(totalRows);
 
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 18; i++){
             Button button = new Button(this);
             buttonArrayList.add(button);
             button.setTag("unchecked");
@@ -128,34 +130,64 @@ public class GameEngineActivity extends AppCompatActivity {
                     return;
                 }
 
-                String backgroundColorHex = getButtonBackgroundColorHex(button);
-                if (backgroundColorHex == null) {
-                    System.out.println("Hintergrundfarbe nicht verfügbar");
-                    return;
-                }
+                // Erhalte den aktuellen Hintergrund des Buttons als Drawable
+                Drawable buttonBackground = button.getBackground();
 
+                // Bestimme die aktuelle Farbe des Buttons
+
+
+                // Hole den aktuellen Tag des Buttons
                 String tag = (String) button.getTag();
-                GradientDrawable border = new GradientDrawable();
+
+                // Logik basierend auf dem aktuellen Tag des Buttons
                 if ("unchecked".equals(tag)) {
-                    border.setStroke(5, Color.WHITE);
+
+                    if (buttonBackground.getConstantState().equals(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_blue).getConstantState())) {
+                        // blue
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_blue));
+                    } else if (buttonBackground.getConstantState().equals(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_red).getConstantState())) {
+                        // red
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_red));
+                    } else if (buttonBackground.getConstantState().equals(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_black).getConstantState())) {
+                        // black
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_black));
+                    } else {
+                        // default case
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_yellow));
+                    }
                     button.setTag("checked");
+
                     wordClickedCounter++;
                 } else if ("checked".equals(tag)) {
+
+                    if (buttonBackground.getConstantState().equals(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_blue).getConstantState())) {
+                        // blue
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_blue));
+                    } else if (buttonBackground.getConstantState().equals(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_red).getConstantState())) {
+                        // red
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_red));
+                    } else if (buttonBackground.getConstantState().equals(ContextCompat.getDrawable(v.getContext(), R.drawable.button_border_black).getConstantState())) {
+                        // black
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_black));
+                    } else {
+                        // default case
+                        button.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.button_backgroundcolor_yellow));
+                    }
+
                     button.setTag("unchecked");
-                    border.setStroke(0, Color.TRANSPARENT); // Randfarbe entfernen
+
                     wordClickedCounter--;
                 }
 
+                // Setze den Text des Counter-Elements
                 collectedWordsCounter.setText(String.valueOf(wordClickedCounter));
-                addWordToGameBoard(backgroundColorHex, button.getText().toString());
-
-                // Setze den Hintergrund mit dem ursprünglichen ColorDrawable und dem Rand
-                Drawable originalBackground = button.getBackground();
-                LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{originalBackground, border});
-                button.setBackground(layerDrawable);
             }
         });
     }
+
+
+
+
 
     private void addWordToGameBoard(String colorHex, String wordText) {
         ValueType valueType = null;
@@ -178,14 +210,7 @@ public class GameEngineActivity extends AppCompatActivity {
         }
     }
 
-    private String getButtonBackgroundColorHex(Button button) {
-        Drawable background = button.getBackground();
-        if (background instanceof ColorDrawable) {
-            int color = ((ColorDrawable) background).getColor();
-            return String.format("#%06X", (0xFFFFFF & color));
-        }
-        return null;
-    }
+
 
 
 

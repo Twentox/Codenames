@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Game {
 
-    private GameBoard gameBoard;
+    public GameBoard gameBoard = new GameBoard();
     private List<Team> teams = new ArrayList<Team>();
     private ScoreManager scoreManager;
     private Messenger messenger;
@@ -14,9 +14,11 @@ public class Game {
 
 
 
-    public Game(GameBoard gameBoard){
-        gameBoard.init();
+
+    public void initGameBoard(){
+        gameBoard = new GameBoard();
     }
+
 
 
 
