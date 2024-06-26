@@ -13,10 +13,19 @@
         android:theme="@style/Theme.Codenames"
         tools:targetApi="31">
         <activity
-            android:name=".GameEngine.GameEngineActivity"
+            android:name=".UserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ChooseTeamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateGamelobbyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameEngineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuActivity"
             android:exported="true"
             android:orientation="vertical">
             <intent-filter>

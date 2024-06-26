@@ -5,8 +5,8 @@ import java.util.List;
 
 public class GameBoard {
     public List<Word> words = new ArrayList<Word>();
-    protected Word[][] grid = new Word[3][5];
-    protected ArrayList<Word> choosenWords = new ArrayList<Word>();
+    public Word[][] grid = new Word[3][5];
+    public ArrayList<Word> choosenWords = new ArrayList<Word>();
 
     public GameBoard(){
     }

@@ -1,4 +1,4 @@
-package com.example.codenames.GameEngine;
+package com.example.codenames;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,8 +18,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.codenames.GameEngine.GameBoard;
+import com.example.codenames.GameEngine.ValueType;
+import com.example.codenames.GameEngine.Word;
 import com.example.codenames.R;
-
+import com.example.codenames.GameEngine.*;
 import java.util.ArrayList;
 
 public class GameEngineActivity extends AppCompatActivity {
@@ -28,8 +31,10 @@ public class GameEngineActivity extends AppCompatActivity {
     private int wordClickedCounter = 0;
     TextView collectedWordsCounter;
 
+    boolean isBoss = true;
+
     ArrayList<Button> buttonArrayList = new ArrayList<>();
-    String w = "Ball\nApfel\nBirne\nParika\nBaum\nHaus\nFlasche\nFanta\nHandy\nMaus\nTastaturr\nUni\nBett\nTisch\nBoden\nLampe\nHolz\nFenster";
+    String w = "Ball\nApfel\nBirne\nParika\nBaum\nHaus\nFlasche\nFanta\nHandy\nMaus\nTastatur\nUni\nBett\nTisch\nBoden\nLampe\nHolz\nFenster";
     ArrayList<String> hintWordList = new ArrayList<String>();
 
     @Override
@@ -48,8 +53,8 @@ public class GameEngineActivity extends AppCompatActivity {
 
         collectedWordsCounter = findViewById(R.id.wordCounter);
         System.out.println(collectedWordsCounter.getText());
-          fillGameBoardGridDetective();
-          //fillGameBoardInvestigator();
+        fillGameBoardGridDetective();
+
     }
 
 
@@ -106,7 +111,7 @@ public class GameEngineActivity extends AppCompatActivity {
             button.setTag("unchecked");
             button.setText(gameBoard.words.get(i).getWord());
             button.setTextColor(Color.WHITE);
-            button.setBackgroundColor(Color.parseColor("#f2cc8f"));
+            button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_backgroundcolor_yellow));
 
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.rowSpec = GridLayout.spec(i / totalColumns); // Berechnet die Zeile
@@ -117,6 +122,16 @@ public class GameEngineActivity extends AppCompatActivity {
             params.height = 125;
 
             gameBoardGrid.addView(button, params);
+        }
+    }
+
+    public void Methode_wechseln(View view) {
+        if(isBoss){
+            fillGameBoardGridDetective();
+            isBoss = false;
+        }else {
+            fillGameBoardInvestigator();
+            isBoss = true; 
         }
     }
 
@@ -186,9 +201,6 @@ public class GameEngineActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void addWordToGameBoard(String colorHex, String wordText) {
         ValueType valueType = null;
         switch (colorHex) {
@@ -211,15 +223,14 @@ public class GameEngineActivity extends AppCompatActivity {
     }
 
 
-
-
-
     public void sendInformation(View view){
         for(Word word: gameBoard.choosenWords){
             System.out.println(word);
         }
     }
-
+    // TODO Button für wechseln des Feldes in Bezug auf Rolle
+    // TODO Navigation durch die App machen
+    // TODO Team Implementieren
 
 
 
