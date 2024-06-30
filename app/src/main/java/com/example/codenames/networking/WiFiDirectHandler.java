@@ -9,6 +9,7 @@ import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WiFiDirectHandler {
+    private static WiFiDirectHandler wiFiDirectHandler;
+
     public AppCompatActivity activity;
 
     private final WifiP2pManager manager;
@@ -29,9 +32,7 @@ public class WiFiDirectHandler {
     public List<WifiP2pDevice> peers;
     public List<String> peerNames = new ArrayList<>();
 
-    private WifiP2pInfo groupInfo;
-
-    public WiFiDirectHandler(AppCompatActivity activity) {
+    private WiFiDirectHandler(AppCompatActivity activity) {
         this.activity = activity;
 
         manager = (WifiP2pManager) activity.getSystemService(Context.WIFI_P2P_SERVICE);
@@ -47,8 +48,24 @@ public class WiFiDirectHandler {
         requestPermissions();
     }
 
+    public static void initWiFiDirectHandler(AppCompatActivity activity) throws IllegalArgumentException {
+        if (activity == null) {
+            throw new IllegalArgumentException("WiFiDirectHandler instance cannot be initialized with activity parameter equal to null");
+        }
+
+        wiFiDirectHandler = new WiFiDirectHandler(activity);
+    }
+
+    public static WiFiDirectHandler getWiFiDirectHandler() throws IllegalStateException {
+        if (wiFiDirectHandler == null) {
+            throw new IllegalArgumentException("WiFiDirectHandler instance has not been initialized yet");
+        }
+
+        return wiFiDirectHandler;
+    }
+
     private void requestPermissions() {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
@@ -94,15 +111,11 @@ public class WiFiDirectHandler {
         }
     }
 
-    public void connectToPeer(WifiP2pDevice device, boolean shouldBeGO) {
+    public void connectToPeer(WifiP2pDevice device) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
 
-        if (shouldBeGO) {
-            config.groupOwnerIntent = 15;
-        } else {
-            config.groupOwnerIntent = 0;
-        }
+        config.groupOwnerIntent = 15;
 
         manager.connect(channel, config, new WifiP2pManager.ActionListener() {
             @Override
@@ -126,6 +139,6 @@ public class WiFiDirectHandler {
             Toast.makeText(activity, "Client", Toast.LENGTH_SHORT).show();
         }
 
-        groupInfo = info;
+        ConnectionHandler.getConnectionHandler().setConnected(info);
     }
 }

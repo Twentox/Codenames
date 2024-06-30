@@ -1,4 +1,6 @@
-package com.example.codenames.socketNetwork;
+package com.example.codenames.DatabaseNetwork;
+
+import com.example.codenames.PostgresSql.Database;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,16 +16,20 @@ public class SocketHandler implements Runnable, Client {
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
     private final ExecutorService requestService;
+    private final Lock requestLock;
+    private final Database database;
     protected static List<SocketHandler> sockets = new CopyOnWriteArrayList<>();
 
-    public SocketHandler(Socket socket) throws IOException {
-        if (socket == null) throw new IllegalArgumentException("Invalid socket");
+    public SocketHandler(Socket socket, Database database) throws IOException {
+        if (socket == null) throw new IllegalArgumentException("[>] Invalid socket");
 
         this.socket = socket;
+        this.database = database;
         this.dataInputStream = new DataInputStream(socket.getInputStream());
         this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
         requestService = Executors.newCachedThreadPool();
+        requestLock = new ReentrantLock();
 
         sockets.add(this);
     }
@@ -37,14 +43,25 @@ public class SocketHandler implements Runnable, Client {
 
                     if (dataType.contains(DataTypes.HEADER.getType())){
                         String[] receivedHeader = recieveHeader(dataInputStream);
+                        System.out.println("[>] Header wurde Empfangen");
 
                         String artefactID = receivedHeader[0];
                         String version = receivedHeader[1];
 
-                        if (NetworkInformation.checkVersion(artefactID, version)) {
+                        if (NetworkEngine.checkVersion(artefactID, version)) {
+                            System.out.println("[>] Headerprüfung erfolgreich");
+
                             dataType = dataInputStream.readUTF();
-                            if (dataType.contains(DataTypes.COMMAND.getType())){
-                                processCommand(dataInputStream.readUTF());
+                            if (dataType.contains(DataTypes.REQUEST.getType())){
+                                requestLock.lock();
+
+                                String request = dataInputStream.readUTF();
+                                RequestQueue.enqueue(new RequestQueue.SocketRequest(socket,request));
+
+                                Future<String> result = requestService.submit(new RequestProcessor(database));
+                                sendData(dataOutputStream, result.get(), DataTypes.ANWSER.getType());
+                                System.out.println("[>] Anfrage wurde bearbeitet");
+                                requestLock.unlock();
                             }
                         }
 
@@ -52,6 +69,8 @@ public class SocketHandler implements Runnable, Client {
                 } catch (IOException e) {
                     System.err.println("IOException: " + e.getMessage());
                     break;
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
                 }
                 Thread.sleep(500);
             }
@@ -73,9 +92,11 @@ public class SocketHandler implements Runnable, Client {
     }
     @Override
     public void connect() throws IOException {
+        return;
     }
     @Override
     public void disconnect() throws IOException {
+        return;
     }
     @Override
     public String recieveData(DataInputStream dataInputStream) throws IOException {
@@ -83,7 +104,7 @@ public class SocketHandler implements Runnable, Client {
     }
     @Override
     public void sendData(DataOutputStream dataOutputStream, String data, String type) throws IOException {
-        sendHeader(dataOutputStream,DataTypes.HEADER.getType(), NetworkInformation.ARTEFACTID, NetworkInformation.VERSION);
+        sendHeader(dataOutputStream,DataTypes.HEADER.getType(), NetworkEngine.ARTEFACTID, NetworkEngine.VERSION);
         dataOutputStream.writeUTF(type);
         dataOutputStream.writeUTF(data);
     }
@@ -103,31 +124,13 @@ public class SocketHandler implements Runnable, Client {
             dataOutputStream.writeUTF(segment);
         }
     }
-    public void closeSocket() {
+    private void closeSocket() {
         try {
             sockets.remove(this);
             socket.close();
         } catch (IOException e) {
-            System.err.println("Fehler beim schließen des Sockets: " + e.getMessage());
+            System.err.println("Failed to close socket: " + e.getMessage());
         }
     }
 
-    public static void broadcast(String data, String type) throws IOException {
-        for (SocketHandler handler : sockets) {
-            handler.sendData(handler.getDataOutputStream(), data, type);
-        }
-    }
-
-    public static void sendToClient(SocketHandler client, String data, String type) throws IOException {
-        client.sendData(client.getDataOutputStream(), data, type);
-    }
-    /**
-     * Verarbeitet den empfangenen Befehl.
-     * Diese Methode ist ein Platzhalter und sollte basierend auf der Anwendungslogik implementiert werden.
-     *
-     * @param command Der empfangene Befehl, der verarbeitet werden soll.
-     */
-    private void processCommand(String command) {
-        // Implementieren Sie die Logik zur Befehlsverarbeitung hier
-    }
 }

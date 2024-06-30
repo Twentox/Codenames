@@ -1,4 +1,4 @@
-package com.example.codenames.socketNetworkDataBase;
+package com.example.codenames.DatabaseNetwork;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

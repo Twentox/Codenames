@@ -4,81 +4,142 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.util.Log;
 
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionHandler {
-    WifiP2pInfo info;
+    private static ConnectionHandler connectionHandler;
 
+    private Thread acceptClientsThread;
+
+    public Object isConnected = new Object();
     // Server
-    ServerSocket serverSocket;
-    List<Socket> clientSockets = new ArrayList<>();
+    private ServerSocket serverSocket;
+    private final List<Socket> clientSockets = new ArrayList<>();
 
     // Client
-    Socket clientSocket;
+    private Socket clientSocket;
 
-    public ConnectionHandler(WifiP2pInfo info) {
-        try {
-            Log.d("ConnectionHandler", "Started");
-            this.info = info;
+    private ConnectionHandler() {}
 
-            if (info.isGroupOwner) {
+    public static ConnectionHandler getConnectionHandler() {
+        if (connectionHandler == null) {
+            connectionHandler = new ConnectionHandler();
+        }
+
+        return connectionHandler;
+    }
+
+    public void setConnected(WifiP2pInfo info) {
+        if (info.isGroupOwner) {
+            startAcceptClients();
+            synchronized (isConnected) {
+                isConnected.notify();
+            }
+        } else {
+            connectToServer(info);
+        }
+    }
+
+    private void startAcceptClients() {
+        if (serverSocket == null) {
+            try {
                 serverSocket = new ServerSocket(8888);
-
-                Thread t = new Thread(this::acceptClient);
-                t.start();
-            } else {
-                Thread t = new Thread(this::connectToServer);
-                t.start();
+                serverSocket.setSoTimeout(1000);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {}
-    }
 
-    public void acceptClient() {
-        try {
-            while(true) {
-                Log.d("ConnectionHandler", "Started listening for clients");
-                Socket newSocket = serverSocket.accept();
-                clientSockets.add(newSocket);
-                Log.d("ConnectionHandler", "Client added");
-            }
-        } catch (IOException e) {}
-    }
-
-    public void connectToServer() {
-        try {
-            clientSocket = new Socket(info.groupOwnerAddress.getHostAddress(), 8888);
-            Log.d("ConnectionHandler", "Connected to Server");
-            receiveMessage();
-        } catch (IOException e) {}
-    }
-
-    public void sendMessage() {
-
-    }
-
-    public void broadcastMessage(String senderAddress) {
-        try {
-            for (Socket client: clientSockets) {
-                if (senderAddress == null || client.getInetAddress().getHostAddress().equals(senderAddress)) {
-                    DataOutputStream outputStream = new DataOutputStream(client.getOutputStream());
-                    outputStream.writeUTF("You are client");
-                    Log.d("ConnectionHandler", "Sent message");
+            acceptClientsThread = new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
+                    try {
+                        try {
+                            Socket newSocket = serverSocket.accept();
+                            clientSockets.add(newSocket);
+                        } catch (SocketTimeoutException e) {
+                        }
+                    } catch (IOException e) {
+                        break;
+                    }
                 }
-            }
-        } catch (IOException e) {}
+            });
+        acceptClientsThread.start();
+        }
     }
 
-    public void receiveMessage() {
+    public void stopAcceptClients() {
+        if (acceptClientsThread != null) {
+            acceptClientsThread.interrupt();
+
+            try {
+                acceptClientsThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    private void connectToServer(WifiP2pInfo info) {
+        Thread t = new Thread(() -> {
+            try {
+                clientSocket = new Socket(info.groupOwnerAddress.getHostAddress(), 8888);
+                synchronized (isConnected) {
+                    isConnected.notify();
+                }
+            } catch (IOException e) {}
+        });
+        t.start();
+    }
+
+    public void sendToServer(int code, String data) throws IOException {
+        DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+        dos.write(code);
+        dos.writeUTF(data);
+    }
+
+    public int receiveFromServer(StringBuilder buffer) throws IOException {
+        DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
+        int code = dis.read();
+        buffer.append(dis.readUTF());
+        return code;
+    }
+
+    public void broadcastToClients(int code, String data, String sender) {
+        for (Socket client: clientSockets) {
+            try {
+                if (!client.getInetAddress().getHostAddress().equals(sender)) {
+                    DataOutputStream dos = new DataOutputStream(client.getOutputStream());
+                    dos.write(code);
+                    dos.writeUTF(data);
+                }
+            } catch (IOException e) {}
+        }
+    }
+
+    public void broadcastToClients(int code, String data) {
+        for (Socket client: clientSockets) {
+            try {
+                DataOutputStream dos = new DataOutputStream(client.getOutputStream());
+                dos.write(code);
+                dos.writeUTF(data);
+            } catch (IOException e) {}
+        }
+    }
+
+    public void sendContinue() {
+        broadcastToClients(0, "");
+    }
+
+    public boolean receiveContinue() {
         try {
-            Log.d("ConnectionHandler", "Ready to receive messages");
-            DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream());
-            String message = inputStream.readUTF();
-            Log.d("ConnectionHandler", message);
+            if (receiveFromServer(new StringBuilder()) == 0) {
+                return true;
+            }
         } catch (IOException e) {}
+        return false;
     }
 }

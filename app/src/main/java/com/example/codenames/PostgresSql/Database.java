@@ -1,4 +1,4 @@
-package com.example.codenames.services.postgresql;
+package com.example.codenames.PostgresSql;
 
 import java.sql.SQLException;
 

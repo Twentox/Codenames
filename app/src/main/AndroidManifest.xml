@@ -20,23 +20,23 @@
         android:theme="@style/Theme.Codenames"
         tools:targetApi="31">
         <activity
-            android:name=".UserInfoActivity"
+            android:name=".Activities.UserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ChooseTeamActivity"
+            android:name=".Activities.ChooseTeamActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateGamelobbyActivity"
+            android:name=".Activities.CreateGamelobbyActivity"
             android:exported="false" />
         <activity
-            android:name=".GameEngineActivity"
+            android:name=".Activities.GameEngineActivity"
             android:exported="false" />
-        <activity android:name=".CreateP2PGroupActivity"
+        <activity android:name=".Activities.CreateConnectionActivity"
             android:exported="false">
             
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".Activities.MenuActivity"
             android:exported="true"
             android:orientation="vertical">
             <intent-filter>

@@ -1,10 +1,4 @@
-package com.example.codenames.socketNetworkDataBase;
-
-import com.example.codenames.services.postgresql.Database;
-import com.example.codenames.services.postgresql.DatabaseImpl;
-
-import java.io.IOException;
-import java.net.ServerSocket;
+package com.example.codenames.DatabaseNetwork;
 
 public class NetworkEngine {
     public static final String ARTEFACTID = "DatenBruecke";

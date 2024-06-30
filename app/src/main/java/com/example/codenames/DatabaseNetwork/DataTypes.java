@@ -1,4 +1,4 @@
-package com.example.codenames.socketNetworkDataBase;
+package com.example.codenames.DatabaseNetwork;
 
 public enum DataTypes {
     HEADER("<-type:header->"),

@@ -1,28 +1,33 @@
-package com.example.codenames;
+package com.example.codenames.Activities;
 
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.codenames.networking.WiFiDirectHandler;
+import com.example.codenames.R;
+import com.example.codenames.networking.*;
 
-public class CreateP2PGroupActivity extends AppCompatActivity {
+public class CreateConnectionActivity extends AppCompatActivity {
     private WiFiDirectHandler wiFiDirectHandler;
+    private final ConnectionHandler connectionHandler = ConnectionHandler.getConnectionHandler();
 
     private ArrayAdapter<String> adapter;
     private ListView listView;
 
+    private Thread displayPeersThread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_p2p_group);
+        setContentView(R.layout.create_connection_activity);
 
-        wiFiDirectHandler = new WiFiDirectHandler(this);
+        WiFiDirectHandler.initWiFiDirectHandler(this);
+        wiFiDirectHandler = WiFiDirectHandler.getWiFiDirectHandler();
         wiFiDirectHandler.discoverPeers();
 
         listView = findViewById(R.id.listView);
@@ -32,27 +37,27 @@ public class CreateP2PGroupActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final WifiP2pDevice device = wiFiDirectHandler.peers.get(position);
-                wiFiDirectHandler.connectToPeer(device, true);
+                wiFiDirectHandler.connectToPeer(device);
             }
         });
-
-        displayPeers();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         wiFiDirectHandler.registerReceiver();
+        startDisplayPeers();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         wiFiDirectHandler.unregisterReceiver();
+        stopDisplayPeers();
     }
 
-    public void displayPeers() {
-        new Thread(() -> {
+    public void startDisplayPeers() {
+        displayPeersThread = new Thread(() -> {
             while (true) {
                 synchronized (wiFiDirectHandler.peerNames) {
                     try {
@@ -63,10 +68,39 @@ public class CreateP2PGroupActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                         });
                     } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         break;
                     }
                 }
             }
-        }).start();
+        });
+
+        displayPeersThread.start();
+    }
+
+    public void stopDisplayPeers() {
+        if (displayPeersThread != null) {
+            displayPeersThread.interrupt();
+
+            try {
+                displayPeersThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    public void sendContinue(View view) {
+        connectionHandler.stopAcceptClients();
+        Thread t = new Thread(() -> {
+            connectionHandler.sendContinue();
+
+            runOnUiThread(() -> {
+                Intent intent = new Intent(CreateConnectionActivity.this, ChooseTeamActivity.class);
+                startActivity(intent);
+            });
+        });
+
+        t.start();
     }
 }

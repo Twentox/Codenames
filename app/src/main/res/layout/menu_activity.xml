@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivity"
+    tools:context=".Activities.MenuActivity"
     android:background="#1E1E1E"
     >
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:onClick="startPeerDiscovery"
-            android:text="Für ein neues Spiel sichtbar sein"
+            android:text="Für Spieler sichtbar sein"
             android:textSize="20dp" />
 
         <Button
@@ -113,13 +113,15 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="20dp"
+                android:layout_height="70dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="0.5"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:paddingBottom="15dp"
+                android:src="@drawable/user_icon_single" />
 
             <TextView
                 android:id="@+id/current_userName"

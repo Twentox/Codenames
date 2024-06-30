@@ -1,9 +1,8 @@
-package com.example.codenames.socketNetworkDataBase;
+package com.example.codenames.DatabaseNetwork;
 
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 
 public abstract class RequestQueue {
     private static final LinkedList<SocketRequest> list = new LinkedList<>();

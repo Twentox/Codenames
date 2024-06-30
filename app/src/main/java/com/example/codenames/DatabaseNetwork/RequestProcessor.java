@@ -1,12 +1,9 @@
-package com.example.codenames.socketNetworkDataBase;
+package com.example.codenames.DatabaseNetwork;
 
-import com.example.codenames.services.postgresql.Database;
-import com.example.codenames.services.postgresql.DatabaseImpl;
+import com.example.codenames.PostgresSql.Database;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.Queue;
 import java.util.concurrent.Callable;
 
 class RequestProcessor implements Callable<String> {

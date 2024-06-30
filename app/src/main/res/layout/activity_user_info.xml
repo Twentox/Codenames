@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="#1E1E1E"
-    tools:context=".UserInfoActivity">
+    tools:context=".Activities.UserInfoActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="314dp"

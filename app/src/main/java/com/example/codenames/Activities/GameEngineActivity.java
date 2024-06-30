@@ -1,10 +1,8 @@
-package com.example.codenames;
+package com.example.codenames.Activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -16,16 +14,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.codenames.GameEngine.*;
-import com.example.codenames.socketNetworkDataBase.*;
-import com.example.codenames.services.postgresql.SQLStatements;
+import com.example.codenames.DatabaseNetwork.*;
+import com.example.codenames.PostgresSql.SQLStatements;
+import com.example.codenames.R;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -34,9 +32,10 @@ import java.util.concurrent.Future;
 public class GameEngineActivity extends AppCompatActivity {
     ArrayList<String> words = new ArrayList<String>();
     GameBoard gameBoard;
-
     private int wordClickedCounter = 0;
     TextView collectedWordsCounter;
+    TextView blueTeamPoints;
+    TextView redTeamPoints;
 
     ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -53,29 +52,8 @@ public class GameEngineActivity extends AppCompatActivity {
             return insets;
         });
 
-        /*
-        words.add("Ball");
-        words.add("Apfel");
-        words.add("Birne");
-        words.add("Parika");
-        words.add("Haus");
-        words.add("Flasche");
-        words.add("Fanta");
-        words.add("Handy");
-        words.add("Maus");
-        words.add("Tastatur");
-        words.add("Uni");
-        words.add("Bett");
-        words.add("Tisch");
-        words.add("Boden");
-        words.add("Lampe");
-        words.add("Holz");
-        words.add("Fenster");
-        words.add("Batterie");
-
-         */
-
-        collectedWordsCounter = findViewById(R.id.wordCounter);
+        redTeamPoints = findViewById(R.id.points_red);
+        blueTeamPoints = findViewById(R.id.points_blue);
 
 
         Future<GameBoard> gameBoardFuture = executorService.submit(() ->{
@@ -87,11 +65,17 @@ public class GameEngineActivity extends AppCompatActivity {
         try {
             GameBoard gameBoard1 = gameBoardFuture.get();
             fillGameBoardGridDetective(gameBoard1);
+           // redTeamPoints.setText(gameBoard1.getMaxWords() / 3);
+            //blueTeamPoints.setText(gameBoard1.getMaxWords() / 3);
+
         }catch (ExecutionException | InterruptedException err){
             System.out.println(err);
         }finally {
             executorService.shutdown();
         }
+
+
+        collectedWordsCounter = findViewById(R.id.wordCounter);
 
     }
 

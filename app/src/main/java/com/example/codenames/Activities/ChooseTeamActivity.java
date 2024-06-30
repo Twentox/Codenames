@@ -1,4 +1,4 @@
-package com.example.codenames;
+package com.example.codenames.Activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.codenames.R;
 
 public class ChooseTeamActivity extends AppCompatActivity {
 
@@ -36,6 +38,5 @@ public class ChooseTeamActivity extends AppCompatActivity {
         Log.d("MenuActivity", "Retrieved username: " + userName);
         System.out.println(userName);
         return userName;
-
     }
 }

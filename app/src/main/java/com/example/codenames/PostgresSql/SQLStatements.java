@@ -1,4 +1,4 @@
-package com.example.codenames.services.postgresql;
+package com.example.codenames.PostgresSql;
 public abstract class SQLStatements {
     public static final String GET_PUBLIC_TABLES = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
     public static String selectAllFromTable(String table){

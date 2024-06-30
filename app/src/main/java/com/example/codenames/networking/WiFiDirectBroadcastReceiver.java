@@ -9,6 +9,8 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
@@ -72,6 +74,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
     private final WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo info) {
+            Log.d("WiFiDirectBroadcastReceiver", "Connection established");
             wifiDirectHandler.handleConnectionInfo(info);
         }
     };
