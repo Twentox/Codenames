@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,13 +18,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codenames"
-        tools:targetApi="31"
-        >
-
+        tools:targetApi="23">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.UserInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ChooseTeamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GameEngineActivity"
+            android:exported="false" />
+        <activity android:name=".Activities.CreateConnectionActivity"
+            android:exported="false">
+            
+        </activity>
+        <activity
+            android:name=".Activities.MenuActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:orientation="vertical">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

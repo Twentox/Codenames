@@ -4,321 +4,302 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/game"
+    android:alpha="1"
     android:layout_height="match_parent"
     android:background="@color/black_background"
-
     >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/team_one"
-        android:layout_width="150dp"
-        android:layout_height="170dp"
-        android:layout_margin="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/red_button">
-
-        <ImageView
-            android:id="@+id/team_one_img"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/team_one_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="8"
-            android:textColor="@color/white"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.516"
-            app:layout_constraintStart_toEndOf="@+id/team_one_img"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/team_one_operative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="88dp"
-            android:text="Operative: "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/team_one_img"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:id="@+id/team_one_spymaster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="44dp"
-            android:text="Spymaster: "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/team_one_operative"
-            app:layout_constraintVertical_bias="0.0" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/team_two"
-        android:layout_width="150dp"
-        android:layout_height="170dp"
-        android:layout_margin="25dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@color/red_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/team_two_img"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/team_two_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="6"
-            android:textColor="@color/white"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toStartOf="@+id/team_two_img"
-            app:layout_constraintHorizontal_bias="0.515"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/team_two_operative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="22dp"
-            android:text="Operative:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/team_two_counter" />
-
-        <TextView
-            android:id="@+id/team_two_spymaster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="44dp"
-            android:text="Spymaster: "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/team_two_operative"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Wait for your spymaster to give you a clue..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/white"/>
-
-    <GridView
-        android:id="@+id/game_field"
-        android:layout_width="430dp"
-        android:layout_height="177dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/team_two"
-        app:layout_constraintStart_toEndOf="@+id/team_one"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/user_input"
-        android:layout_width="343dp"
-        android:layout_height="84dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_width="match_parent"
+        android:id="@+id/opacity_container"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/game_points_card"
             android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/game_player_card_left"
+                android:layout_width="196.5dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/points_card_red">
+                <!--NEU-->
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/user_icon_multiple" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    app:cardCornerRadius="100000dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginRight="20dp">
+                    <!--NEU-->
+
+                    <TextView
+                        android:id="@+id/points_red"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:text="0/5"
+                        android:textColor="@color/blue"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:gravity="center"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/game_player_card_right"
+                android:layout_width="196.5dp"
+                android:background="@drawable/points_card_blue"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/user_icon_multiple"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    app:cardCornerRadius="1000000dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="20dp">
+                    <!--NEU-->
+
+                    <TextView
+                        android:id="@+id/points_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:letterSpacing="0.3"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:text="0/5"
+                        android:textColor="@color/blue"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/game_gridlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="180dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="150dp"
+            android:layout_gravity="center"
+            android:alignmentMode="alignMargins"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.5">
+        </androidx.gridlayout.widget.GridLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/hint_field"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/game_gridlayout"
+            app:layout_constraintVertical_bias="0.75"
+            tools:ignore="NotSibling">
+
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:hint="Schreibe dein Hinweis..."
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@color/black_background"
+                android:textSize="12dp"
+                android:background="@drawable/set_username_textfield"/>
+
+            <TextView
+                android:id="@+id/wordCounter"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:background="@drawable/set_username_textfield"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/send_Information"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:onClick="sendHint"
+                android:text="Senden"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="306dp"
+        android:layout_height="197dp"
+        android:visibility="gone"
+        android:id="@+id/game_res_container"
+        android:background="@drawable/points_card_red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="302dp"
+            android:layout_height="193dp"
+            android:orientation="vertical"
+            android:background="@drawable/result_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <Button
-                android:id="@+id/button4"
+            <TextView
+                android:id="@+id/game_res_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="1" />
+                android:text="Sie haben Gewonnen"
+                android:textColor="@color/black_background"
+                android:textSize="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button5"
-                android:layout_width="wrap_content"
+                android:id="@+id/button2"
+                android:background="@drawable/button_border_black"
+                android:layout_width="200dp"
+                android:textColor="@color/white"
+                android:onClick="backToMenu"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="2" />
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:text="zurück zum Menü" />
 
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="3" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="4" />
-
-            <Button
-                android:id="@+id/button8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="4" />
-
-            <Button
-                android:id="@+id/button9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="5" />
-
-            <Button
-                android:id="@+id/button10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="6" />
-
-            <Button
-                android:id="@+id/button11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="7" />
-
-            <Button
-                android:id="@+id/button12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="8" />
-
-            <Button
-                android:id="@+id/button13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="9" />
         </LinearLayout>
 
-        <EditText
-            android:layout_width="100dp"
-            android:layout_height="11dp"
-            android:layout_marginTop="4dp"
-            android:text="Tippwort:"
-            android:textColor="@color/white"
-            android:textSize="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-        <Button
-            android:id="@+id/button14"
-            android:layout_width="80dp"
-            android:layout_height="29dp"
-            android:layout_marginBottom="4dp"
-            android:text="Absenden"
-            android:textSize="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clue_count"
-        android:layout_width="239dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/user_input"
+        android:visibility="gone"
+        android:id="@+id/investigator_hint_container"
+        android:layout_width="286dp"
+        android:layout_height="84dp"
+        android:background="@drawable/result_card"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_field"
-        app:layout_constraintVertical_bias="0.344">
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hinweis: "
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView10"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="92dp"
-            android:text="4"
-            android:textColor="@color/white"
+        <LinearLayout
+            android:layout_width="284dp"
+            android:layout_height="82dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Der Hinweis ist: "
+                android:textColor="@color/black_background"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black_background"
+                android:textSize="18dp"
+                android:text="Anzahl an Wörtern: " />
+
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/button15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="68dp"
-        android:text="Protokoll"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

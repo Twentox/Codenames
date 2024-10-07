@@ -4,4 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red_button">#bc4749</color>
     <color name="black_background">#1E1E1E</color>
+    <color name="blue">#264653</color>
+    <color name="grey">#343a40</color>
+    <color name="button_blue">#4361ee</color>
+    <color name="button_red">#d62828</color>
+    <color name="button_black">#000000</color>
+    <color name="button_yellow">#ffba08</color>
 </resources>
